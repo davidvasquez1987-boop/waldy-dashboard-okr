@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tablero OKR · Uniformes Waldy</title>
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--tx:#14213d;--mu:#5b6578;--bd:#d9dee8;--ac:#1f3864;--tr:#e6eaf2;
+--ok:#1b8a4b;--ca:#b7791f;--ri:#d9680f;--cr:#c62828;box-sizing:border-box;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1624;--card:#18223a;--tx:#eef2fa;--mu:#a3adc2;--bd:#2c3a58;--ac:#8fb4ff;--tr:#2a3652;
+--ok:#4cd68a;--ca:#f0c24b;--ri:#ff9a4d;--cr:#ff6b6b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1624;--card:#18223a;--tx:#eef2fa;--mu:#a3adc2;--bd:#2c3a58;--ac:#8fb4ff;--tr:#2a3652;
+--ok:#4cd68a;--ca:#f0c24b;--ri:#ff9a4d;--cr:#ff6b6b;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:0}
+.sub{color:var(--mu);font-size:.9rem;margin:2px 0 12px}
+.banner{background:var(--card);border:1px dashed var(--ca);border-radius:10px;padding:8px 12px;font-size:.88rem;margin-bottom:12px}
+.top{display:grid;grid-template-columns:auto 1fr;gap:14px;margin-bottom:12px}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px}
+.ring{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;margin:auto}
+.ring div{width:92px;height:92px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center;font-weight:700;font-size:1.5rem}
+.ring small{display:block;font-size:.7rem;color:var(--mu);font-weight:400}
+.obj{margin:6px 0}.obj .l{display:flex;justify-content:space-between;font-size:.85rem}
+.bar{height:12px;background:var(--tr);border-radius:8px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:8px;transition:width .3s}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.chip{border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:999px;padding:10px 16px;font-size:.95rem;cursor:pointer;min-height:44px}
+.chip[aria-pressed="true"]{background:var(--ac);color:var(--bg);border-color:var(--ac);font-weight:700}
+.mej h2,.sec h2{font-size:1rem;margin:0 0 6px}
+.mej li{margin:4px 0;font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.kr{background:var(--card);border:1px solid var(--bd);border-left:8px solid var(--bd);border-radius:14px;padding:14px}
+.kr h3{font-size:.95rem;margin:0 0 2px}.kr .o{font-size:.75rem;color:var(--mu);margin-bottom:8px}
+.st{display:inline-block;font-weight:700;font-size:.8rem;padding:2px 10px;border-radius:999px;border:2px solid currentColor}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.big{font-size:1.9rem;font-weight:800}
+.nums{display:flex;justify-content:space-between;font-size:.82rem;color:var(--mu);margin:6px 0}
+.nums b{display:block;color:var(--tx);font-size:1rem}
+.ctl{display:flex;gap:8px;align-items:center;margin-top:8px}
+.ctl button{width:52px;height:52px;border-radius:12px;border:2px solid var(--ac);background:var(--card);color:var(--ac);font-size:1.7rem;font-weight:700;cursor:pointer}
+.ctl input{flex:1;min-width:0;height:52px;border-radius:12px;border:2px solid var(--bd);background:var(--bg);color:var(--tx);font-size:1.4rem;text-align:center;font-weight:700}
+.ctl label{font-size:.75rem;color:var(--mu)}
+.dev{font-size:.82rem;margin-top:6px}
+.foot{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{border:2px solid var(--ac);background:var(--card);color:var(--ac);border-radius:10px;padding:10px 14px;font-size:.9rem;cursor:pointer;min-height:44px}
+.note{color:var(--mu);font-size:.78rem;margin-top:10px}
+@media(max-width:640px){.top{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Tablero OKR · Uniformes Waldy</h1>
+<p class="sub">Toca <b>+</b> o <b>−</b>, o escribe el valor actual de cada resultado. Todo se recalcula solo.</p>
+<div class="banner" id="demo">Datos de ejemplo. Escribe los valores reales, o usa «Poner en línea base» para empezar desde cero.</div>
+
+<div class="top">
+ <div class="panel"><div class="ring" id="ring"><div><span id="tot">0%<small>avance total</small></span></div></div></div>
+ <div class="panel"><h2 style="font-size:1rem;margin:0 0 6px">Avance por objetivo</h2><div id="objs"></div></div>
+</div>
+
+<div class="chips" id="chips" role="group" aria-label="Filtrar por objetivo"></div>
+
+<div class="panel mej" style="margin-bottom:12px"><h2>Áreas de mejora (los 3 KR más atrasados)</h2><ol id="mej" style="margin:0;padding-left:20px"></ol></div>
+
+<div class="grid" id="grid"></div>
+
+<div class="foot">
+ <button class="btn" id="base">Poner en línea base</button>
+ <button class="btn" id="ej">Volver a datos de ejemplo</button>
+ <button class="btn" id="tema">Cambiar claro/oscuro</button>
+</div>
+<p class="note">Los valores se guardan en este dispositivo. Avance = (actual − línea base) ÷ (meta − línea base). Estado: Cumplido ≥100%, En camino ≥70%, En riesgo ≥40%, Crítico &lt;40%. Líneas base con * son supuestas: confírmalas.</p>
+</div>
+<script>
+const OBJ={1:"O1 Corte y sostenibilidad",2:"O2 Cuellos de botella y capacidad",3:"O3 Logística y trazabilidad"};
+const KR=[
+["KR1",1,"Merma de tela en mesa de corte","%",7.5,2.2,2.6,0.1],
+["KR2",1,"Tiempo de ciclo por lote","días",18,14.4,16.5,0.1],
+["KR3",1,"Cumplimiento de lista de chequeo*","%",60,90,90,1],
+["KR4",2,"Capacidad ociosa de la planta","%",25,10,14,1],
+["KR5",2,"Piezas defectuosas por 100 prendas","u/100",9,6.4,8.4,0.1],
+["KR6",2,"Traslados por urgencia por turno*","%",40,20,28,1],
+["KR7",3,"Entregas a tiempo Bogotá–Paipa","%",72,92,76,1],
+["KR8",3,"Órdenes visibles en el dashboard*","%",0,100,100,1],
+["KR9",3,"Costo de fletes de emergencia (base 100)*","índice",100,80,92,1]
+].map(r=>({id:r[0],o:r[1],t:r[2],u:r[3],b:r[4],m:r[5],a:r[6],s:r[7],ej:r[6]}));
+const KEY="waldy-okr-v1";let filtro=0,demo=true;
+try{const g=JSON.parse(localStorage.getItem(KEY)||"null");if(g){KR.forEach(k=>{if(g.v&&g.v[k.id]!=null)k.a=g.v[k.id]});demo=!!g.demo}}catch(e){}
+function guardar(){try{localStorage.setItem(KEY,JSON.stringify({demo,v:Object.fromEntries(KR.map(k=>[k.id,k.a]))}))}catch(e){}}
+const cl=x=>Math.max(0,Math.min(1,x));
+const prog=k=>k.b===k.m?1:cl((k.a-k.b)/(k.m-k.b));
+function est(p){return p>=1?["Cumplido","var(--ok)","✔"]:p>=.7?["En camino","var(--ca)","▲"]:p>=.4?["En riesgo","var(--ri)","!"]:["Crítico","var(--cr)","✖"]}
+const fmt=n=>(Math.round(n*10)/10).toString().replace(".",",");
+const $=i=>document.getElementById(i);
+const dec=k=>k.s<1?1:0;
+
+function build(){
+ $("chips").innerHTML=["Todos",...Object.values(OBJ)].map((t,i)=>`<button class="chip" data-f="${i}" aria-pressed="${i===filtro}">${t}</button>`).join("");
+ $("chips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{filtro=+b.dataset.f;build();upd()});
+ $("grid").innerHTML=KR.filter(k=>!filtro||k.o===filtro).map(k=>`
+ <div class="kr" id="c-${k.id}"><h3>${k.id} · ${k.t}</h3><div class="o">${OBJ[k.o]}</div>
+ <div class="row"><span class="big" id="p-${k.id}"></span><span class="st" id="s-${k.id}"></span></div>
+ <div class="bar" style="margin:8px 0"><i id="b-${k.id}"></i></div>
+ <div class="nums"><div>Línea base<b>${fmt(k.b)} ${k.u}</b></div><div>Meta<b>${fmt(k.m)} ${k.u}</b></div></div>
+ <div class="ctl"><button data-k="${k.id}" data-d="-1" aria-label="Restar">−</button>
+ <div style="flex:1;display:flex;flex-direction:column"><label for="i-${k.id}">Valor actual (${k.u})</label><input id="i-${k.id}" type="number" inputmode="decimal" step="${k.s}" value="${k.a}"></div>
+ <button data-k="${k.id}" data-d="1" aria-label="Sumar">+</button></div>
+ <div class="dev" id="d-${k.id}"></div></div>`).join("");
+ KR.filter(k=>!filtro||k.o===filtro).forEach(k=>{
+  $("i-"+k.id).oninput=e=>{const v=parseFloat(e.target.value);if(!isNaN(v)){k.a=v;cambio()}};
+ });
+ $("grid").querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>{
+  const k=KR.find(x=>x.id===b.dataset.k);k.a=Math.round((k.a+k.s*b.dataset.d)*10)/10;$("i-"+k.id).value=k.a;cambio()});
+}
+function cambio(){demo=false;guardar();upd()}
+function upd(){
+ $("demo").style.display=demo?"block":"none";
+ KR.forEach(k=>{if(!$("c-"+k.id))return;
+  const p=prog(k),[n,c,ic]=est(p),sentido=k.m<k.b?"bajar":"subir",falta=k.m<k.b?k.a-k.m:k.m-k.a;
+  $("p-"+k.id).textContent=Math.round(p*100)+"%";$("p-"+k.id).style.color=c;
+  const s=$("s-"+k.id);s.textContent=ic+" "+n;s.style.color=c;
+  const b=$("b-"+k.id);b.style.width=Math.round(p*100)+"%";b.style.background=c;
+  $("c-"+k.id).style.borderLeftColor=c;
+  $("d-"+k.id).innerHTML=falta<=0?`Meta alcanzada. Actual: <b>${fmt(k.a)} ${k.u}</b>`:`Falta ${sentido} <b>${fmt(falta)} ${k.u}</b> para la meta`;
+ });
+ const tot=KR.reduce((s,k)=>s+prog(k),0)/KR.length;
+ $("tot").innerHTML=Math.round(tot*100)+"%<small>avance total</small>";
+ $("ring").style.background=`conic-gradient(var(--ac) ${tot*360}deg,var(--tr) 0)`;
+ $("objs").innerHTML=[1,2,3].map(o=>{const l=KR.filter(k=>k.o===o),a=l.reduce((s,k)=>s+prog(k),0)/l.length,c=est(a)[1];
+  return `<div class="obj"><div class="l"><span>${OBJ[o]}</span><b>${Math.round(a*100)}%</b></div><div class="bar"><i style="width:${a*100}%;background:${c}"></i></div></div>`}).join("");
+ $("mej").innerHTML=[...KR].sort((a,b)=>prog(a)-prog(b)).slice(0,3).map(k=>`<li><b>${k.id}</b> ${k.t}: ${Math.round(prog(k)*100)}% (${est(prog(k))[0]})</li>`).join("");
+}
+$("base").onclick=()=>{KR.forEach(k=>k.a=k.b);demo=false;guardar();build();upd()};
+$("ej").onclick=()=>{KR.forEach(k=>k.a=k.ej);demo=true;guardar();build();upd()};
+$("tema").onclick=()=>{const r=document.documentElement,d=getComputedStyle(r).colorScheme==="dark";r.dataset.theme=d?"light":"dark"};
+build();upd();
+</script>
+</body>
+</html>
